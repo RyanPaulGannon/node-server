@@ -1,11 +1,15 @@
-import express from 'express'
 import cors from 'cors'
+import express from 'express'
 import bodyParser from 'body-parser';
 
 const app = express()
 const port = 5105
 
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(
+  bodyParser.urlencoded({
+    extended: true 
+}));
 app.use(
     cors({
     origin: 'http://localhost:3000',
@@ -18,8 +22,12 @@ app.get('/', (req, res) => {
 
 app.post('/checkout', (req, res) => {
     console.log('Post successful')
-    console.log(req.formData)
-    res.sendStatus(200)
+    res.send(req.body)
+    console.log(req.body)
+})
+
+app.get('/checkout', (req, res) => {
+  
 })
 
 app.listen(port, () => {
