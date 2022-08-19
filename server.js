@@ -1,44 +1,39 @@
-require("dotenv").config()
-
-const cors = require("cors")
-const express = require("express")
-const bodyParser = require("body-parser")
+import {} from 'dotenv/config'
+import cors from 'cors'
+import Stripe from 'stripe'
+import express, { json } from 'express'
 
 const app = express()
+const stripe = new Stripe(process.env.STRIPE_PRIVATE_KEY)
 
-app.use(bodyParser.json());
+app.use(json())
 app.use(
-  bodyParser.urlencoded({
-    extended: true 
-}));
-app.use(
-    cors({
-    origin: 'http://localhost:3000',
+  cors({
+    origin: "http://localhost:3000",
     credentials: true,
-}))
+  })
+)
 
 app.post('/checkout', (req, res) => {
     res.send(req.body)
     console.log(req.body)
 })
 
-const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY)
 
 const storeItems = new Map([
-  [1, { priceInCents: 1000, name: 'Test One'}],
-  [2, { priceInCents: 2000, name: 'Test Two'}]
+  [1, { priceInCents: 1000, name: 'Basket '}],
 ])
 
 app.post('/checkout-session', async (req, res) => {
   try {
-    const session = stripe.checkout.sessions.create({
+    const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       mode: 'payment',
       line_items: req.body.items.map(item => {
         const storeItem = storeItems.get(item.id);
         return {
           price_data: {
-            currency: 'eur',
+            currency: 'gbp',
             product_data: {
               name: storeItem.name,
             },
@@ -47,8 +42,8 @@ app.post('/checkout-session', async (req, res) => {
           quantity: item.quantity,
         }
       }),
-      success_url: `${process.env.CLIENT_URL}/success`,
-      cancel_url: `${process.env.CLIENT_URL}/cancel`,
+      success_url: `${process.env.CLIENT_URL}/`,
+      cancel_url: `${process.env.CLIENT_URL}/`,
     })
     res.json({ url: session.url })
   } catch (e) {
