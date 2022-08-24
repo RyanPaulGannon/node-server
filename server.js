@@ -1,6 +1,7 @@
 import {} from 'dotenv/config'
 import cors from 'cors'
 import Stripe from 'stripe'
+import mongoose from 'mongoose'
 import express, { json } from 'express'
 
 const app = express()
@@ -14,11 +15,27 @@ app.use(
   })
 )
 
-app.post('/checkout', (req, res) => {
-    res.send(req.body)
-    console.log(req.body)
-})
+const connectionString = `${process.env.DB_SRV}`
+mongoose.connect(connectionString)
+  .then((result) => {console.log('Connected'), app.listen(5105)})
+  .catch((err) => console.log(err))
 
+
+  app.all('/adduser', (req, res) => {
+    const user = new User({
+      name: req.body.name,
+      email: req.body.email,
+      password: req.body.password
+    })
+  
+    user.save()
+      .then((result) => {
+        res.send(result)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  })
 
 const storeItems = new Map([
   [1, { priceInCents: 1000, name: 'Basket '}],
@@ -50,5 +67,3 @@ app.post('/checkout-session', async (req, res) => {
     res.status(500).json({ error: e.message })
   }
 })
-
-app.listen(5105)
