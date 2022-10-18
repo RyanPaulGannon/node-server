@@ -1,72 +1,47 @@
 import "dotenv/config"
 import cors from "cors"
-import Stripe from "stripe"
+import axios from "axios"
+import mysql from "mysql"
 import mongoose from "mongoose"
 import express, { json } from "express"
 
+/* config */
 const app = express()
-const stripe = new Stripe(process.env.STRIPE_PRIVATE_KEY!, {
-  apiVersion: "2022-08-01",
-})
+const port = 5001
 
-app.use(json())
+/* cors */
 app.use(
-  cors({
-    origin: "*",
-    credentials: true,
-  })
+    cors({
+        origin: "*",
+        credentials: true,
+    })
 )
 
-const connectionString = `${process.env.DB_SRV}`
-mongoose
-  .connect(connectionString)
-  .then((result: any) => {
-    console.log("Connected on port 5105"), app.listen(5105)
-  })
-  .catch((error: Error) => console.log(error))
-
-// app.all("/adduser", (req: any, res: any) => {
-//   const user = new User({
-//     name: req.body.name,
-//     email: req.body.email,
-//     password: req.body.password,
-//   })
-
-//   user
-//     .save()
-//     .then((result: typeof json) => {
-//       res.send(result)
-//     })
-//     .catch((error: string) => {
-//       console.log(error)
-//     })
+/* mysql */
+// let connection = mysql.createConnection({
+//     host: "localhost",
+//     user: "me",
+//     password: "secret",
+//     database: "my_db",
 // })
 
-const storeItems = new Map([[1, { priceInCents: 1000, name: "Basket" }]])
+// connection.connect()
 
-app.post("/checkout-session", async (req, res) => {
-  try {
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ["card"],
-      mode: "payment",
-      line_items: req.body.items.map((item: any) => {
-        const storeItem = storeItems.get(item.id)
-        return {
-          price_data: {
-            currency: "gbp",
-            product_data: {
-              name: storeItem!.name,
-            },
-            unit_amount: storeItem!.priceInCents,
-          },
-          quantity: item.quantity,
-        }
-      }),
-      success_url: `${process.env.CLIENT_URL}/`,
-      cancel_url: `${process.env.CLIENT_URL}/`,
-    })
-    res.json({ url: session.url })
-  } catch (error: any) {
-    res.status(500).json({ error: error.message })
-  }
+// connection.query("SELECT 1 + 1 AS solution", function (error, results, fields) {
+//     if (error) throw error
+//     console.log("The solution is: ", results[0].solution)
+// })
+
+// connection.end()
+
+/* routes */
+app.post("/login", (req, res) => {
+    let body = req.body
+    console.log(body)
+    res.send("It Works!")
+})
+
+/* listener */
+app.listen(port, () => {
+    console.log(`T and A listening on port ${port}`)
 })
