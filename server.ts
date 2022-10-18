@@ -17,6 +17,8 @@ app.use(
     })
 )
 
+app.use(express.json())
+
 /* mysql */
 // let connection = mysql.createConnection({
 //     host: "localhost",
@@ -38,7 +40,6 @@ app.use(
 app.post("/login", (req, res) => {
     let body = req.body
     console.log(body)
-    res.send("It Works!")
 })
 
 /* listener */
