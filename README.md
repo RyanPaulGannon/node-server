@@ -1,2 +1,3 @@
-# node-server
-Both a project in itself and a test server for other projects
+# Node-Server
+
+Currently used for FCC Backend Challenges
