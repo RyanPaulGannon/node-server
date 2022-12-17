@@ -15,7 +15,13 @@ app.get("/", (req: Request, res: Response) => {
   res.send("TS-Node Server")
 })
 
-/* listener */
-app.listen(port, () => {
-  console.log(`Node Server listening on port ${port}`)
+app.get("/api/whoami", (req: Request, res: Response) => {
+  res.json({
+    ipaddress: req.socket.remoteAddress,
+    language: req.headers["accept-language"],
+    software: req.headers["user-agent"],
+  })
 })
+
+/* listener */
+app.listen(port, () => console.log(`Node Server listening on port ${port}`))
