@@ -1,6 +1,7 @@
 import "dotenv/config"
 import cors from "cors"
 import express, { Application, Request, Response } from "express"
+import prisma from "./prisma/client"
 
 /* config */
 const app: Application = express()
@@ -10,11 +11,7 @@ const port = process.env.PORT || 4000
 app.use(cors({ origin: "*" }))
 app.use(express.json())
 
-import { PrismaClient } from "@prisma/client"
-
-const prisma = new PrismaClient()
-
-export async function main() {
+async function main() {
   // Connect the client
   await prisma.$connect()
   console.log("Connected")
@@ -22,18 +19,10 @@ export async function main() {
 }
 
 main()
-  .then(async () => {
-    await prisma.$disconnect()
-  })
-  .catch(async (e) => {
-    console.error(e)
-    await prisma.$disconnect()
-    process.exit(1)
-  })
 
 /* routes */
 app.get("/", (req: Request, res: Response) => {
-  res.send("TS-Node Server")
+  res.sendFile(process.cwd() + "/views/index.html")
 })
 
 /* Header Parser */

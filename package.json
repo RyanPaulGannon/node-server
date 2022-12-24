@@ -6,7 +6,11 @@
   "scripts": {
     "dev": "nodemon src/app.ts",
     "start": "ts-node dist/app.js",
-    "build": "tsc -p ."
+    "build": "tsc -p .",
+    "prisma:generate": "dotenv -e .env -- npx prisma generate"
+  },
+  "prisma": {
+    "schema": "src/prisma/schema.prisma"
   },
   "keywords": [],
   "author": "",
