@@ -1,6 +1,7 @@
+import dns from "dns"
 import "dotenv/config"
 import cors from "cors"
-import express, { Application, Request, Response, urlencoded } from "express"
+import express, { Application, Request, Response } from "express"
 import { connect } from "./database/connect"
 import { postWebUrl } from "./database/postUrl"
 
@@ -34,15 +35,15 @@ app.get("/api/whoami", (req: Request, res: Response) => {
 app.post("/api/shorturl", async (req: Request, res: Response) => {
   let { url } = req.body
 
-  await postWebUrl(url)
+  dns.lookup(url, async (err, address) => {
+    if (!address || err) {
+      return res.json({ error: "Invalid Url" })
+    } else {
+      await postWebUrl(url)
+    }
 
-  let urlRegex =
-    /^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+\.[a-z]+(\/[a-zA-Z0-9#]+\/?)*$/
-
-  // if (urlRegex.test(req.baseUrl)) return { error: "invalid url" }
-
-  res.json({ original_url: url, short_url: 1 })
+    res.json({ original_url: url, short_url: 1 })
+  })
 })
-
 /* listener */
 app.listen(port, () => console.log(`Node Server listening on port ${port}`))
