@@ -13,3 +13,19 @@ export async function getUrlData(href: string) {
     },
   })
 }
+
+export async function checkIfUrlExists(href: string) {
+  return prisma.webUrl.findUnique({
+    where: {
+      url: href,
+    },
+  })
+}
+
+export async function getUrlIdData(id: string) {
+  return prisma.webUrl.findUnique({
+    where: {
+      id,
+    },
+  })
+}

@@ -4,7 +4,12 @@ import "dotenv/config"
 import cors from "cors"
 import express, { Application, Request, Response } from "express"
 import { connect } from "./database/connect"
-import { getUrlData, postUrlData } from "./database/postUrl"
+import {
+  checkIfUrlExists,
+  getUrlData,
+  getUrlIdData,
+  postUrlData,
+} from "./database/url"
 
 /* config */
 const app: Application = express()
@@ -48,16 +53,35 @@ app.post("/api/shorturl", async (req: Request, res: Response) => {
       if (!address || err) {
         res.json({ error: "Invalid Url" })
       } else {
-        await postUrlData(href)
-        const data: any = await getUrlData(href)
-        if (data) id = data.id
+        const doesUrlExist = await checkIfUrlExists(href)
+
+        if (!doesUrlExist) {
+          await postUrlData(href)
+          const data: any = await getUrlData(href)
+          if (data) id = data.id
+        } else {
+          const data: any = await getUrlData(href)
+          if (data) id = data.id
+        }
+        res.json({ original_url: href, short_url: id })
       }
-      res.json({ original_url: href, short_url: id })
     })
   }
 })
 
+app.get("/api/shorturl/:id", async (req: Request, res: Response) => {
+  const id = req.params.id
 
+  const dbId = await getUrlIdData(id)
+
+  if (!id) {
+    res.json({ error: "Invalid Url" })
+  } else {
+    // if (dbId) {
+    //   res.redirect("Test")
+    // }
+  }
+})
 
 /* listener */
 app.listen(port, () => console.log(`Node Server listening on port ${port}`))
