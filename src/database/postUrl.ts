@@ -13,11 +13,3 @@ export async function getUrlData(href: string) {
     },
   })
 }
-
-// export const getUserByUsername = (username) => {
-//     return prisma.user.findUnique({
-//         where: {
-//             username
-//         }
-//     })
-// }
