@@ -48,7 +48,7 @@ app.post("/api/shorturl", async (req: Request, res: Response) => {
       } else {
         await postWebUrl(hostName)
       }
-      res.json({ original_url: urlString, short_url: 1 })
+      res.json({ original_url: parsedUrl.href, short_url: 1 })
     })
   }
 })
