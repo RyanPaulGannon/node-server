@@ -1,4 +1,5 @@
 import dns from "dns"
+import url from "url"
 import "dotenv/config"
 import cors from "cors"
 import express, { Application, Request, Response } from "express"
@@ -33,17 +34,24 @@ app.get("/api/whoami", (req: Request, res: Response) => {
 
 /* URL Shortener */
 app.post("/api/shorturl", async (req: Request, res: Response) => {
-  let { url } = req.body
+  let urlString = req.body
 
-  dns.lookup(url, async (err, address) => {
-    if (!address || err) {
-      return res.json({ error: "Invalid Url" })
-    } else {
-      await postWebUrl(url)
-    }
+  const parsedUrl = url.parse(urlString.url)
+  const hostName = parsedUrl.hostname
 
-    res.json({ original_url: url, short_url: 1 })
-  })
+  if (!hostName) {
+    res.json({ error: "Invalid Url" })
+  } else {
+    dns.lookup(hostName!, async (err, address) => {
+      if (!address || err) {
+        res.json({ error: "Invalid Url" })
+      } else {
+        await postWebUrl(hostName)
+      }
+      res.json({ original_url: urlString, short_url: 1 })
+    })
+  }
 })
+
 /* listener */
 app.listen(port, () => console.log(`Node Server listening on port ${port}`))
