@@ -4,7 +4,7 @@ import "dotenv/config"
 import cors from "cors"
 import express, { Application, Request, Response } from "express"
 import { connect } from "./database/connect"
-import { postWebUrl } from "./database/postUrl"
+import { getUrlData, postUrlData } from "./database/postUrl"
 
 /* config */
 const app: Application = express()
@@ -38,6 +38,8 @@ app.post("/api/shorturl", async (req: Request, res: Response) => {
 
   const parsedUrl = url.parse(urlString.url)
   const hostName = parsedUrl.hostname
+  const href = parsedUrl.href
+  let id: number
 
   if (!hostName) {
     res.json({ error: "Invalid Url" })
@@ -46,9 +48,11 @@ app.post("/api/shorturl", async (req: Request, res: Response) => {
       if (!address || err) {
         res.json({ error: "Invalid Url" })
       } else {
-        await postWebUrl(hostName)
+        await postUrlData(href)
+        const data: any = await getUrlData(href)
+        if (data) id = data.id
       }
-      res.json({ original_url: parsedUrl.href, short_url: 1 })
+      res.json({ original_url: href, short_url: id })
     })
   }
 })

@@ -1,7 +1,23 @@
 import prisma from "../prisma/client"
 
-export function postWebUrl(url: any) {
+export function postUrlData(url: string) {
   return prisma.webUrl.create({
     data: { url },
   })
 }
+
+export async function getUrlData(href: string) {
+  return prisma.webUrl.findUnique({
+    where: {
+      url: href,
+    },
+  })
+}
+
+// export const getUserByUsername = (username) => {
+//     return prisma.user.findUnique({
+//         where: {
+//             username
+//         }
+//     })
+// }
