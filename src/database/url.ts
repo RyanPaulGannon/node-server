@@ -24,8 +24,9 @@ export async function checkIfUrlExists(href: string) {
 
 export async function getUrlIdData(id: string) {
   return prisma.webUrl.findUnique({
-    where: {
-      id,
+    where: { id },
+    select: {
+      url: true,
     },
   })
 }

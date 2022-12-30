@@ -77,9 +77,9 @@ app.get("/api/shorturl/:id", async (req: Request, res: Response) => {
   if (!id) {
     res.json({ error: "Invalid Url" })
   } else {
-    // if (dbId) {
-    //   res.redirect("Test")
-    // }
+    if (dbId) {
+      res.redirect(dbId.url)
+    }
   }
 })
 
