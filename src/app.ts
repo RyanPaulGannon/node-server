@@ -39,9 +39,7 @@ app.get("/api/whoami", (req: Request, res: Response) => {
 
 /* URL Shortener */
 app.post("/api/shorturl", async (req: Request, res: Response) => {
-  let urlString = req.body
-
-  const parsedUrl = url.parse(urlString.url)
+  const parsedUrl = url.parse(req.body.url)
   const hostName = parsedUrl.hostname
   const href = parsedUrl.href
   let id: number
