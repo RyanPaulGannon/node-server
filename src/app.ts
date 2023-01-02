@@ -104,7 +104,17 @@ app.post("/api/users", async (req: Request, res: Response) => {
 
   const user = await findUser(username)
 
-  res.json(user)
+  if (user) {
+    return res.json({ username: user.username, _id: user.id })
+  } else {
+    res.send("Invalid")
+  }
+})
+
+app.post("/api/users/:_id/exercises", async (req: Request, res: Response) => {
+  let { description, duration, date } = req.body
+  console.log(description, duration, date)
+  res.json({})
 })
 
 /* listener */
