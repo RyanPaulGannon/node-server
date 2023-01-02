@@ -81,5 +81,11 @@ app.get("/api/shorturl/:id", async (req: Request, res: Response) => {
   }
 })
 
+/* Exercise Tracker */
+app.post("/api/users", async (req: Request, res: Response) => {
+  let username = req.body.username
+  console.log(username)
+})
+
 /* listener */
 app.listen(port, () => console.log(`Node Server listening on port ${port}`))
