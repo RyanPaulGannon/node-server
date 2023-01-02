@@ -9,7 +9,13 @@ import {
   getUrlData,
   getUrlIdData,
   postUrlData,
-} from "./database/url"
+} from "./database/urlShortener"
+import {
+  checkIfUserExists,
+  createUser,
+  findUser,
+  getAllUsers,
+} from "./database/exerciseTracker"
 
 /* config */
 const app: Application = express()
@@ -82,9 +88,23 @@ app.get("/api/shorturl/:id", async (req: Request, res: Response) => {
 })
 
 /* Exercise Tracker */
+app.get("/api/users", async (req: Request, res: Response) => {
+  const users = await getAllUsers()
+  res.send([users])
+})
+
 app.post("/api/users", async (req: Request, res: Response) => {
   let username = req.body.username
-  console.log(username)
+
+  if (!username) res.send("No user entered")
+
+  const doesUserExist = await checkIfUserExists(username)
+
+  if (!doesUserExist) await createUser(username)
+
+  const user = await findUser(username)
+
+  res.send(user)
 })
 
 /* listener */
