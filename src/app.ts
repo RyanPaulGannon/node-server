@@ -90,7 +90,7 @@ app.get("/api/shorturl/:id", async (req: Request, res: Response) => {
 /* Exercise Tracker */
 app.get("/api/users", async (req: Request, res: Response) => {
   const users = await getAllUsers()
-  res.send([users])
+  res.json(users)
 })
 
 app.post("/api/users", async (req: Request, res: Response) => {
@@ -104,7 +104,7 @@ app.post("/api/users", async (req: Request, res: Response) => {
 
   const user = await findUser(username)
 
-  res.send(user)
+  res.json(user)
 })
 
 /* listener */

@@ -16,6 +16,6 @@ model WebUrl {
 }
 
 model ExerciseTrackerUser {
-    id   String @id @default(auto()) @map("_id") @db.ObjectId
-    user String @unique
+    id       String @id @default(auto()) @map("_id") @db.ObjectId
+    username String @unique
 }
