@@ -6,7 +6,7 @@ export function postUrlData(url: string) {
   })
 }
 
-export async function getUrlData(href: string) {
+export function getUrlData(href: string) {
   return prisma.webUrl.findUnique({
     where: {
       url: href,
@@ -14,7 +14,7 @@ export async function getUrlData(href: string) {
   })
 }
 
-export async function checkIfUrlExists(href: string) {
+export function checkIfUrlExists(href: string) {
   return prisma.webUrl.findUnique({
     where: {
       url: href,
@@ -22,7 +22,7 @@ export async function checkIfUrlExists(href: string) {
   })
 }
 
-export async function getUrlIdData(id: string) {
+export function getUrlIdData(id: string) {
   return prisma.webUrl.findUnique({
     where: { id },
     select: {
