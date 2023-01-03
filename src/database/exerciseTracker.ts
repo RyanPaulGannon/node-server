@@ -12,7 +12,7 @@ export function checkIfUserExists(username: string) {
   })
 }
 
-export async function findUserByUsername(username: string) {
+export function findUserByUsername(username: string) {
   return prisma.user.findUnique({
     where: { username },
     select: {
@@ -22,7 +22,7 @@ export async function findUserByUsername(username: string) {
   })
 }
 
-export async function findUserById(id: string) {
+export function findUserById(id: string) {
   return prisma.user.findUnique({
     where: { id },
     select: {
@@ -32,13 +32,13 @@ export async function findUserById(id: string) {
   })
 }
 
-export async function getAllUsers() {
+export function getAllUsers() {
   return prisma.user.findMany({
     select: { username: true, id: true },
   })
 }
 
-export async function addExerciseData(
+export function addExerciseData(
   description: string,
   duration: number,
   date: Date,
