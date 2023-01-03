@@ -17,6 +17,7 @@ import {
   findUserByUsername,
   findUserById,
   getAllUsers,
+  findExerciseLog,
 } from "./database/exerciseTracker"
 
 /* config */
@@ -130,13 +131,24 @@ app.post("/api/users/:_id/exercises", async (req: Request, res: Response) => {
   await addExerciseData(description, Number(duration), date, id)
 
   res.json({
-    username: user?.username,
-    description,
-    duration,
-    date: date.toDateString(),
     _id: id,
+    username: user?.username,
+    date: date.toDateString(),
+    duration: Number(duration),
+    description,
   })
 })
+
+// app.get("/api/users/:_id/logs", async (req: Request, res: Response) => {
+//   const userId = req.params._id
+//   const user = await findUserById(userId)
+
+//   if (!user) res.json({ message: "User not found" })
+
+//   const exercises = await findExerciseLog(userId)
+
+//   res.json({ username: user?.username, exercises: exercises })
+// })
 
 /* listener */
 app.listen(port, () => console.log(`Node Server listening on port ${port}`))

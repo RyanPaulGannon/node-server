@@ -1,4 +1,4 @@
-import prisma from "../prisma/client"
+import prisma from "./client"
 
 export function createUser(username: string) {
   return prisma.user.create({
@@ -51,5 +51,11 @@ export function addExerciseData(
       date,
       userId,
     },
+  })
+}
+
+export function findExerciseLog(userId: string) {
+  return prisma.exercise.findFirst({
+    where: { userId },
   })
 }
