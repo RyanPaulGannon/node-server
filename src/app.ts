@@ -11,9 +11,11 @@ import {
   postUrlData,
 } from "./database/urlShortener"
 import {
+  addExerciseData,
   checkIfUserExists,
   createUser,
-  findUser,
+  findUserByUsername,
+  findUserById,
   getAllUsers,
 } from "./database/exerciseTracker"
 
@@ -102,7 +104,7 @@ app.post("/api/users", async (req: Request, res: Response) => {
 
   if (!doesUserExist) await createUser(username)
 
-  const user = await findUser(username)
+  const user = await findUserByUsername(username)
 
   if (user) {
     return res.json({ username: user.username, _id: user.id })
@@ -113,8 +115,17 @@ app.post("/api/users", async (req: Request, res: Response) => {
 
 app.post("/api/users/:_id/exercises", async (req: Request, res: Response) => {
   let { description, duration, date } = req.body
-  console.log(description, duration, date)
-  res.json({})
+  let id = req.params._id
+
+  const user = await findUserById(id)
+
+  if (!user) res.send("No user found")
+
+  if (!date) date = new Date()
+
+  res.json({ username: user?.username, description, duration, date, _id: id })
+
+  const addExercise = await addExerciseData(id)
 })
 
 /* listener */
