@@ -38,6 +38,18 @@ export async function getAllUsers() {
   })
 }
 
-export async function addExerciseData(id: string) {
-  return prisma.exercise.findFirst({})
+export async function addExerciseData(
+  description: string,
+  duration: number,
+  date: Date,
+  userId: string
+) {
+  return prisma.exercise.create({
+    data: {
+      description,
+      duration,
+      date,
+      userId,
+    },
+  })
 }

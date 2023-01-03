@@ -121,11 +121,21 @@ app.post("/api/users/:_id/exercises", async (req: Request, res: Response) => {
 
   if (!user) res.send("No user found")
 
-  if (!date) date = new Date()
+  if (!date) {
+    date = new Date()
+  } else {
+    new Date(date)
+  }
 
-  res.json({ username: user?.username, description, duration, date, _id: id })
+  await addExerciseData(description, Number(duration), date, id)
 
-  const addExercise = await addExerciseData(id)
+  res.json({
+    username: user?.username,
+    description,
+    duration,
+    date: date.toDateString(),
+    _id: id,
+  })
 })
 
 /* listener */
