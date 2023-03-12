@@ -14,7 +14,7 @@ app.use(express.urlencoded({ extended: false }))
 
 /* routes */
 app.get('/', (req: Request, res: Response) => {
-  res.send('TypeScript boilerplate Azure Web Apps')
+  res.send('TypeScript boilerplate Azure Web Apps & Docker')
 })
 
 /* database */
@@ -23,4 +23,6 @@ connect().catch((error) => {
 })
 
 /* listener */
-app.listen(port, () => console.log(`Node Server listening on port ${port}`))
+app.listen(port, () =>
+  console.log(`Node Server listening on port ${port} with Docker`)
+)
