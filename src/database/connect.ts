@@ -4,16 +4,13 @@ const endpoint = process.env.AZURE_COSMOS_DATABASE_URL!
 const key = process.env.AZURE_PRIMARY_KEY_COSMOS!
 const client = new CosmosClient({ endpoint, key })
 
-export async function connect() {
-  const { database } = await client.databases.createIfNotExists({
-    id: 'Test',
-  })
-  console.log(database.id)
+const databaseName = 'YourWesthoughtonFood'
+const containerName = 'Restaurants'
 
-  const { container } = await database.containers.createIfNotExists({
-    id: 'Practice',
-  })
-  console.log(container.id)
+export async function connect() {
+  const database = client.database(databaseName)
+
+  const container = database.container(containerName)
 
   await container.item('1').read()
 
