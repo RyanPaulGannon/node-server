@@ -13,4 +13,4 @@ COPY . .
 
 EXPOSE 4000
 
-CMD [ "ts-node", "src/app.ts"]
+CMD [ "pnpm", "dev"]
