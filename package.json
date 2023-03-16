@@ -10,14 +10,14 @@
     "prisma:generate": "dotenv -e .env -- npx prisma generate"
   },
   "prisma": {
-    "schema": "src/prisma/schema.prisma"
+    "schema": "prisma/schema.prisma"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@azure/cosmos": "^3.17.3",
-    "@prisma/client": "^4.8.0",
+    "@prisma/client": "^4.11.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.1",
     "eslint": "^6.0.0 || ^7.0.0 || ^8.0.0",
