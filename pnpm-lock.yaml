@@ -2,7 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@azure/cosmos': ^3.17.3
-  '@prisma/client': ^4.8.0
+  '@prisma/client': ^4.11.0
   '@types/cors': ^2.8.12
   '@types/express': ^4.17.13
   '@types/node': ^18.7.15
