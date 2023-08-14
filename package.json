@@ -17,21 +17,21 @@
   "license": "ISC",
   "dependencies": {
     "@azure/cosmos": "^3.17.3",
-    "@prisma/client": "^4.11.0",
+    "@prisma/client": "^5.1.1",
     "cors": "^2.8.5",
-    "dotenv": "^16.0.1",
-    "eslint": "^6.0.0 || ^7.0.0 || ^8.0.0",
+    "dotenv": "^16.3.1",
+    "eslint": "^8.47.0",
     "express": "^4.18.2",
-    "prisma": "^4.8.0"
+    "prisma": "^5.1.1"
   },
   "devDependencies": {
-    "@types/cors": "^2.8.12",
-    "@types/express": "^4.17.13",
-    "@types/node": "^18.7.15",
-    "@typescript-eslint/parser": "^5.36.2",
-    "nodemon": "^2.0.20",
+    "@types/cors": "^2.8.13",
+    "@types/express": "^4.17.17",
+    "@types/node": "^20.5.0",
+    "@typescript-eslint/parser": "^6.4.0",
+    "nodemon": "^3.0.1",
     "ts-node": "^10.9.1",
     "ts-node-dev": "^2.0.0",
-    "typescript": "^4.8.2"
+    "typescript": "^5.1.6"
   }
 }
